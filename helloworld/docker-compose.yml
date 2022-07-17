@@ -1,0 +1,30 @@
+version: "3.0"
+services:
+  client:
+    container_name: client
+    build:
+      context: ./
+      dockerfile: ./Dockerfile
+    tty: true
+    command: |
+      /bin/bash -c "
+      /bin/bash
+      sleep 100h
+      "
+    cap_add:
+      - NET_ADMIN
+    volumes:
+      - ./:/work
+  server:
+    container_name: server
+    build:
+      context: ./
+      dockerfile: ./Dockerfile
+    command: |
+      /bin/bash -c "
+      python3 greeter_server.py
+      "
+    cap_add:
+      - NET_ADMIN
+    volumes:
+      - ./:/work
