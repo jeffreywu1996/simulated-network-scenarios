@@ -1,0 +1,14 @@
+FROM ubuntu
+
+WORKDIR /work
+COPY . /work
+
+RUN ./nvidia_patch.sh && \
+  apt-get update && \
+  apt-get isntall iproute2 iputils-ping iptables openssl -y
+  pip3 install -r requirements.txt
+
+
+
+# CMD zoro agent start && ./entrypoint.sh
+CMD /bin/bash

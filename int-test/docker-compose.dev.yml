@@ -1,0 +1,47 @@
+version: "3"
+services:
+  client:
+    container_name: client
+    build:
+      context: ./
+      dockerfile: ./client/Dockerfile
+    tty: true
+    environment:
+      IS_DOCKER: "true"
+      TEST_HASH: ${TEST_HASH}
+      DEBUG: ${DEBUG}
+      WITH_RERUN: ${WITH_RERUN}
+      # USE_LOCAL_SERVER: "true"
+    command: |
+      /bin/bash -c "
+      ./entrypoint.sh
+      # sleep 1000h
+      "
+    depends_on:
+      - server
+    cap_add:
+      - NET_ADMIN
+    volumes:
+      - ./:/work
+    networks:
+      - int-test-network
+
+  server:
+    container_name: server
+    build:
+      context: ./
+      dockerfile: ./server/Dockerfile
+    environment:
+      - TEST_HASH
+    ports:
+      - "8001:8001"
+    cap_add:
+      - NET_ADMIN
+    volumes:
+      - ./server:/work
+    networks:
+      - int-test-network
+
+networks:
+  int-test-network:
+    external: true

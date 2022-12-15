@@ -1,0 +1,9 @@
+confluent-kafka==1.8.2
+# Use grpcio>=1.47.0 to prevent python segmentation fault
+grpcio>=1.47.0
+pytest
+tcconfig
+fastapi
+pydantic
+uvicorn
+pytest-rerunfailures
