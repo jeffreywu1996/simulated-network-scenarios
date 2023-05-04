@@ -1,0 +1,3 @@
+tcconfig~=0.28.0
+fastapi~=0.95.1
+uvicorn~=0.22.0

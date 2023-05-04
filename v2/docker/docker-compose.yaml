@@ -1,0 +1,41 @@
+version: "3"
+services:
+  client:
+    build:
+      context: ./..
+      dockerfile: ./docker/Dockerfile.server
+    tty: true
+    environment:
+      IS_DOCKER: "true"
+    command:
+      - /bin/bash
+      - -c
+      - |
+        echo "Starting client.."
+        sleep 1000h
+    depends_on:
+      - server
+    cap_add:
+      - NET_ADMIN
+    volumes:
+      - ../:/app
+
+  server:
+    build:
+      context: ./..
+      dockerfile: ./docker/Dockerfile.server
+    environment:
+      - TEST_HASH
+    ports:
+      - "8001:8001"
+    cap_add:
+      - NET_ADMIN
+    command:
+      - /bin/bash
+      - -c
+      - |
+        echo "Starting server.."
+        cd server
+        uvicorn main:app --reload
+    volumes:
+      - ../:/app
