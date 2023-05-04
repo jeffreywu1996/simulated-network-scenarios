@@ -12,7 +12,9 @@ services:
       - -c
       - |
         echo "Starting client.."
-        sleep 1000h
+        cd client
+        python3 main.py
+
     depends_on:
       - server
     cap_add:
