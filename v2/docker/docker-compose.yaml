@@ -14,9 +14,9 @@ services:
         echo "Starting client.."
         cd client
         python3 main.py
-
     depends_on:
-      - server
+      server:
+        condition: service_healthy
     cap_add:
       - NET_ADMIN
     volumes:
@@ -30,6 +30,11 @@ services:
       - 8001:8001
     cap_add:
       - NET_ADMIN
+    healthcheck:
+      test: curl -f http://localhost:8001/ || exit 1
+      interval: 5s
+      timeout: 30s
+      retries: 6
     command:
       - /bin/bash
       - -c
