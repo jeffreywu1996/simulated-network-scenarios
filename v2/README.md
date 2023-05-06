@@ -11,10 +11,33 @@ Test performance of pub/sub sdk under poor network scenarios.
 
 ![network-simulation drawio (1)](https://user-images.githubusercontent.com/13981821/236593235-c4d36d7a-82cd-4f26-8c6e-010f9d9ca8b2.png)
 
+### Real world use case
+![real-network-sim drawio](https://user-images.githubusercontent.com/13981821/236594412-3feb90ab-4189-441c-a7bc-31b1666e4f30.png)
+
 
 ## Get Started
 ```
 make start
+```
+Starts two dockers like the image above, one client and one server.
+You can add more client and server code to suit your needs. Some examples are a REST endpoint, pub/sub, file download streaming APIs...
+Usually we will perform network shaping on the client side since it is more likely for network instability on the client side in real world scenario.
+However, you can also shape network on server side to test client behaviors when server has network issues.
+
+### Shaping network from outside of container
+This is nice for manual testing
+```
+# Stop network completely in client
+docker exec -it docker-client-1 python3 -c "from shared import tctool; tctool.network_down()"
+
+# Start network in client
+docker exec -it docker-client-1 python3 -c "from shared import tctool; tctool.network_up()"
+
+# Start network shapping in client
+docker exec -it docker-client-1 python3 -c "from shared import tctool; tctool.set(ip='0.0.0.0', port='8001', delay='1000ms', loss='10%')"
+
+# Stop all network shapping in client
+docker exec -it docker-client-1 python3 -c "from shared import tctool; tctool.reset()"
 ```
 
 ## Reading Materials
