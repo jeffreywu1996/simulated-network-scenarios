@@ -1,0 +1,57 @@
+version: "3"
+services:
+  client:
+    build:
+      context: ./..
+      dockerfile: ./docker/Dockerfile.server
+    tty: true
+    environment:
+      IS_DOCKER: "true"
+    network_mode: host
+    command:
+      - /bin/bash
+      - -c
+      - |
+        echo "Starting client.."
+        cd client
+        python3 main.py
+    depends_on:
+      server:
+        condition: service_healthy
+    cap_add:
+      - NET_ADMIN
+    volumes:
+      - ../:/app
+
+  server:
+    build:
+      context: ./..
+      dockerfile: ./docker/Dockerfile.server
+    ports:
+      - 8001:8001
+    cap_add:
+      - NET_ADMIN
+    healthcheck:
+      test: curl -f http://localhost:8001/ || exit 1
+      interval: 5s
+      timeout: 30s
+      retries: 6
+    command:
+      - /bin/bash
+      - -c
+      - |
+        echo "Starting server.."
+        cd server
+        uvicorn main:app --host 0.0.0.0 --port 8001 --reload
+    volumes:
+      - ../:/app
+
+  # rabbitmq:
+  #   hostname: my-rabbit
+  #   build:
+  #     context: ./..
+  #     dockerfile: ./docker/Dockerfile.rabbitmq
+  #   ports:
+  #     - 15672:15672
+  #     - 5672:5672
+  #     - 1883:1883
