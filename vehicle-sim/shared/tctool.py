@@ -67,7 +67,7 @@ def set(delay: str = None, loss: str = None, rate: str = None,
     # for ip in ips:
     #     cmd.extend(["--network", ip])
 
-    cmd.extend(["--port", "8001"])
+    cmd.extend(["--port", "5672"])
     cmd.extend(["--direction", "outgoing"])
 
     if delay:
@@ -95,9 +95,9 @@ def network_down(ip: str = None, port: str = None):
     #     ip = SERVER_URL
     # logger.info(f"Stopping network to servers: {SERVER_URL}")
     # cmd = f"iptables -I OUTPUT -p tcp -d {SERVER_URL} -j DROP"
-
-    logger.info("Stopping network to servers: server:8001")
-    port = 8001
+    if port is None:
+        port = 8001
+    logger.info(f"Stopping network to servers: server:{port}")
     cmd = f"iptables -I OUTPUT -p tcp --dport {port} -j DROP"
     subprocess.call(shlex.split(cmd))
 
@@ -106,8 +106,9 @@ def network_up(ip: str = None, port: str = None):
     # logger.info(f"Starting network, grpc_servers: {GRPC_ENV}")
     # cmd = f"iptables -I OUTPUT -p tcp -d {GRPC_SERVERS} -j ACCEPT"
     # subprocess.call(shlex.split(cmd))
+    if port is None:
+        port = 8001
 
-    logger.info("Starting network to servers: server:8001")
-    port = 8001
+    logger.info(f"Starting network to servers: server:{port}")
     cmd = f"iptables -I OUTPUT -p tcp --dport {port} -j ACCEPT"
     subprocess.call(shlex.split(cmd))

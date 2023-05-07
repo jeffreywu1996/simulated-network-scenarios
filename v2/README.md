@@ -48,6 +48,10 @@ https://www.kai-waehner.de/blog/2021/03/15/apache-kafka-mqtt-sparkplug-iot-blog-
 ### ROS to MQTT
 http://wiki.ros.org/mqtt_client#quick-start
 
+### MQTT
+https://plainenglish.io/blog/mqtt-beginners-guide-in-python-38590c8328ae
+http://www.steves-internet-guide.com/into-mqtt-python-client/
+
 
 ### Use AWS iot w/ MQTT
 downside: max message size 128kb

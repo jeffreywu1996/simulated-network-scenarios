@@ -7,7 +7,7 @@ services:
     tty: true
     environment:
       IS_DOCKER: "true"
-    network_mode: host
+      MQTT_HOST: "host.docker.internal"
     command:
       - /bin/bash
       - -c

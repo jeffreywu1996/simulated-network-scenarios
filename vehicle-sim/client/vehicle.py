@@ -1,3 +1,4 @@
+import os
 import time
 import json
 import uuid
@@ -8,6 +9,8 @@ from mq import RabbitMQ
 fake = Faker()
 logging.basicConfig(level=logging.INFO, format='%(asctime)s [%(levelname)s] %(filename)s: %(message)s')
 logger = logging.getLogger(__name__)
+
+MQTT_HOST = os.getenv('MQTT_HOST', 'localhost')
 
 
 class Vehicle:
@@ -25,7 +28,7 @@ class Vehicle:
         self.id = id or str(uuid.uuid4())
         fake_loc = fake.local_latlng(country_code='US', coords_only=False)
         self.location = {'lat': fake_loc[0], 'lng': fake_loc[1]}
-        self.mq = RabbitMQ(host='localhost')
+        self.mq = RabbitMQ(host=MQTT_HOST)
         self.queue = 'vehicle'
         self.mq.channel.queue_declare(queue=self.queue)
 
