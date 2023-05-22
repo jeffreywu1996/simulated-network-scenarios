@@ -14,7 +14,11 @@ if __name__ == '__main__':
     logger.info('Starting client...')
 
     for i in range(10):
-        # threading.Thread(target=start_vehicle).start()
+        threading.Thread(target=start_vehicle).start()
+        threading.Thread(target=start_vehicle).start()
+        threading.Thread(target=start_vehicle).start()
+        threading.Thread(target=start_vehicle).start()
+        threading.Thread(target=start_vehicle).start()
         # start_vehicle()
 
         import time

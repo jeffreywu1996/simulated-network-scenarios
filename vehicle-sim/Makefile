@@ -7,6 +7,18 @@ start:
 	# docker-compose -f docker/docker-compose.yaml up --build --abort-on-container-exit
 	docker compose -f docker/docker-compose.yaml up --abort-on-container-exit
 
-.PHONY: start-rabbitmq
-start-rabbitmq:
-	docker run -it --rm -d --hostname my-rabbit -p 15672:15672 -p 5672:5672 rabbitmq:3-management
+.PHONY: start-rabbit
+start-rabbit:
+	docker compose -f docker/docker-compose.rabbit.yaml up -d --remove-orphans
+
+.PHONY: stop-rabbit
+stop-rabbit:
+	docker compose -f docker/docker-compose.rabbit.yaml down
+
+.PHONY: start-kafka
+start-kafka:
+	docker compose -f docker/docker-compose.kafka.yaml up -d --remove-orphans
+
+.PHONY: stop-kafka
+stop-kafka:
+	docker compose -f docker/docker-compose.kafka.yaml down

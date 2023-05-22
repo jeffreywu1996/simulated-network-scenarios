@@ -34,7 +34,7 @@ class Vehicle:
 
         logger.info(f'Vehicle created, id: {self.id}, location: {self.location}')
 
-    def start(self):
+    def start(self, sleep_time=0.1):
         logger.info('Vehicle started...')
         i = 0
         while True:
@@ -52,4 +52,4 @@ class Vehicle:
             logger.info(f'published queue: {self.queue}, payload: {payload}')
 
             i += 1
-            time.sleep(0.1)
+            # time.sleep(sleep_time)
